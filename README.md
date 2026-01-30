@@ -3,7 +3,6 @@
 <div align="center">
 
 [![Paper](https://img.shields.io/badge/Paper-ArXiv-b31b1b.svg)](LINK_TO_YOUR_PAPER_IF_AVAILABLE)
-[![Conference](https://img.shields.io/badge/IJCAI-2026-blue)](LINK_TO_CONFERENCE_IF_ACCEPTED)
 [![License](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/Status-Code_Coming_Soon-orange)
 
@@ -39,7 +38,7 @@ Why do we need ActMem? Consider the following scenario:
 
 ActMem transforms unstructured dialogue history into a structured **Memory Knowledge Graph (KG)** with both semantic and causal edges.
 
-![Framework Overview](PATH_TO_YOUR_IMAGE_OF_FIGURE_2.png)
+![Framework Overview](figs/framework.png)
 *(Figure: The overview of the ActMem framework)*
 
 The framework consists of four key modules:
