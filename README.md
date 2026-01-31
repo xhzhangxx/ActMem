@@ -19,18 +19,9 @@
 
 ## 📖 Overview
 
-Existing memory frameworks for LLM agents (like RAG or summaries) typically act as passive **"recorders"**. They are good at retrieving facts but often fail to understand the deeper implications of memories for current decision-making.
+Existing memory frameworks for LLM agents typically act as passive **"recorders"**. They are good at retrieving facts but often fail to understand the deeper implications of memories for current decision-making.
 
 **ActMem** is a novel actionable memory framework that transforms the agent from a passive retriever to an **active reasoner**. By integrating memory retrieval with active causal reasoning, ActMem enables agents to deduce implicit constraints and resolve potential conflicts between past states and current intentions.
-
-### The "Reasoning Gap" (Motivation)
-Why do we need ActMem? Consider the following scenario:
-
-> **History:** The user has a puppy that is "teething" and chewing everything.
-> **Current Query:** "Where can I buy Sago Palms?"
-> 
-> * ❌ **Traditional RAG:** Retrieves shops selling Sago Palms (ignoring the puppy).
-> * ✅ **ActMem:** Infers conflict (Sago Palms are toxic ↔ Puppy chews things) and warns the user.
 
 ---
 
@@ -42,17 +33,21 @@ ActMem transforms unstructured dialogue history into a structured **Memory Knowl
 *(Figure: The overview of the ActMem framework)*
 
 The framework consists of four key modules:
-1.  **Memory Fact Extraction:** Compresses raw history into atomic facts.
-2.  **Fact Clustering:** Groups topic-related facts to reduce computational overhead.
-3.  **Memory KG Construction:** * Constructs **Semantic Edges** for contextual connectivity.
-    * Mines **Causal Edges** using counterfactual reasoning and PMI-based filtering to reduce hallucinations.
-4.  **Counterfactual-based Retrieval:** Uses a retrieval-reasoning-refinement loop to uncover implicit constraints (e.g., "If I do X, what negative consequences might occur based on memory?").
-
+1.  **Memory Fact Extraction**
+    Compresses raw dialogue history into a set of atomic, declarative facts to eliminate noise and redundancy.
+2.  **Fact Clustering**
+    Groups topic-related facts using incremental clustering to ensure topical coherence and reduce computational overhead for causal mining.
+3.  **Memory KG Construction**
+    Transforms unstructured facts into a structured graph:
+    *   **Semantic Edges:** Established based on vector similarity to preserve contextual connectivity.
+    *   **Causal Edges:** Identified by LLMs and filtered through a **PMI-based validation** mechanism to remove spurious correlations and hallucinations.
+4.  **Counterfactual-based Retrieval**
+    Implements a **retrieval-reasoning-refinement loop**. Instead of simple matching, it generates commonsense consequences (e.g., *"If the user does X, what negative outcomes might occur?"*) and uses this reasoning to retrieve implicitly connected memory constraints.
 ---
 
 ## 📊 ActMemEval Benchmark
 
-To evaluate reasoning capabilities (moving beyond simple fact retrieval), we introduce **ActMemEval**, a dataset designed for logic-driven scenarios.
+To evaluate reasoning capabilities and move beyond simple fact retrieval, we introduce **ActMemEval**, a dataset designed for logic-driven scenarios.
 
 * **Logic-Driven:** Focuses on scenarios requiring causal deduction and conflict resolution.
 * **Low Similarity:** Unlike LongMemEval, answers in ActMemEval cannot be directly retrieved via surface-level overlap; they must be inferred.
@@ -65,10 +60,12 @@ ActMem significantly outperforms state-of-the-art baselines (including Mem0, Lig
 
 | Method | Retrieval Acc. | QA Acc. |
 | :--- | :---: | :---: |
-| NaiveRAG | 84.86 | 61.54 |
+| NaiveRAG | **84.86** | 61.54 |
 | Mem0 | 68.02 | 41.80 |
+| A-Mem | 64.31 | - |
+| MemoryOS | - | 13.36 |
 | LightMem | 56.88 | 63.97 |
-| **ActMem (Ours)** | **71.66** | **76.52** |
+| **ActMem (Ours)** | 71.66 | **76.52** |
 
 *(Results based on DeepSeek-V3 backbone. See paper for full details.)*
 
@@ -77,9 +74,7 @@ ActMem significantly outperforms state-of-the-art baselines (including Mem0, Lig
 ## 🗓️ Roadmap
 
 - [ ] Release the **ActMemEval** benchmark dataset.
-- [ ] Release the code for Memory KG Construction.
-- [ ] Release the code for Counterfactual-based Retrieval.
-- [ ] Provide scripts for reproducing experimental results.
+- [ ] Release the code for ActMem.
 
 ---
 
